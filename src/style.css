@@ -55,9 +55,10 @@
 
 @media(max-width:900px){
   html,body,#app{width:100%;max-width:100%;overflow-x:clip}
-  body.menu-open{overflow:hidden}
+  body.menu-open{overflow-x:clip;overflow-y:auto}
   main,section,header,footer,.wrap,.split,.content,.section-head,.contact-grid{min-width:0;max-width:100%}
-  .header{position:sticky;top:0;z-index:50;background:#fff}
+  .header{position:fixed;inset:0 0 auto 0;width:100%;z-index:50;background:#fff}
+  .header+main{padding-top:68px}
   .nav{height:68px;position:relative}
   .menu{position:relative;z-index:72;width:46px;height:46px;display:grid;place-items:center;border:0;border-radius:50%;padding:0;background:transparent;color:var(--ink);appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:background .25s,color .25s,transform .25s}
   .menu svg{width:23px;height:23px;transition:transform .35s}
