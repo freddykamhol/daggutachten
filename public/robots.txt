@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dag-gutachten.de/sitemap.xml
