@@ -59,8 +59,10 @@
   main,section,header,footer,.wrap,.split,.content,.section-head,.contact-grid{min-width:0;max-width:100%}
   .header{position:sticky;top:0;z-index:50;background:#fff}
   .nav{height:68px;position:relative}
-  .menu{position:relative;z-index:72;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;transition:background .25s,color .25s,transform .25s}
+  .menu{position:relative;z-index:72;width:46px;height:46px;display:grid;place-items:center;border:0;border-radius:50%;padding:0;background:transparent;color:var(--ink);appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:background .25s,color .25s,transform .25s}
   .menu svg{width:23px;height:23px;transition:transform .35s}
+  .menu:hover,.menu:active{background:#eef0ef;color:var(--ink)}
+  .menu:focus{outline:0}.menu:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .menu[aria-expanded="true"]{background:var(--lime);color:var(--ink);transform:rotate(90deg)}
   .menu[aria-expanded="true"] svg{transform:rotate(90deg)}
   .nav nav{
