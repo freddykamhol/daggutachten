@@ -52,3 +52,42 @@
   footer{padding:48px 0 26px}.footer-grid{display:grid;grid-template-columns:1fr;gap:30px}.footer-brand{grid-column:auto}.footer-grid>div{border-bottom:1px solid #262b29;padding-bottom:22px}.footer-grid>div:not(:first-child){gap:10px}.footer-grid a{min-height:30px;display:flex;align-items:center}.copyright{margin-top:12px}
   .mobile-bar{height:64px;grid-template-columns:.8fr 1fr 1.25fr;background:#fff}.mobile-bar a{font-size:.7rem;min-width:0}.mobile-bar a:nth-child(2){background:#f1f3f2}.mobile-bar a:last-child{background:var(--lime)}
 }
+
+@media(max-width:900px){
+  html,body,#app{width:100%;max-width:100%;overflow-x:clip}
+  body.menu-open{overflow:hidden}
+  main,section,header,footer,.wrap,.split,.content,.section-head,.contact-grid{min-width:0;max-width:100%}
+  .header{position:sticky;top:0;z-index:50;background:#fff}
+  .nav{height:68px;position:relative}
+  .menu{position:relative;z-index:72;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;transition:background .25s,color .25s,transform .25s}
+  .menu svg{width:23px;height:23px;transition:transform .35s}
+  .menu[aria-expanded="true"]{background:var(--lime);color:var(--ink);transform:rotate(90deg)}
+  .menu[aria-expanded="true"] svg{transform:rotate(90deg)}
+  .nav nav{
+    counter-reset:menu-item;display:flex;visibility:hidden;opacity:0;pointer-events:none;
+    position:fixed;z-index:70;inset:68px 0 64px 0;width:100%;max-width:none;
+    padding:44px max(24px,calc((100vw - 700px)/2)) 32px;background:rgba(16,19,21,.985);color:#fff;
+    flex-direction:column;align-items:stretch;gap:0;overflow-y:auto;overscroll-behavior:contain;
+    transform:translateY(-12px);transition:opacity .25s,transform .35s,visibility .35s;box-shadow:none;border:0
+  }
+  .nav nav::before{content:'Navigation';display:block;margin-bottom:22px;color:#8e9794;font-size:.65rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+  .nav nav::after{content:'DAG GUTACHTEN · DIREKT VOR ORT IN OWL';display:block;margin-top:auto;padding-top:30px;color:#737c79;font-size:.61rem;font-weight:700;letter-spacing:.13em}
+  .nav nav.open{visibility:visible;opacity:1;pointer-events:auto;transform:none}
+  .nav nav a{counter-increment:menu-item;position:relative;width:100%;min-height:68px;padding:14px 38px 14px 0;border:0;border-bottom:1px solid #303635;color:#fff;font:600 clamp(1.65rem,7vw,2.35rem)/1.05 Oswald,Arial,sans-serif;text-transform:uppercase;display:flex;align-items:center;transition:color .2s,padding-left .2s}
+  .nav nav a::before{content:'0' counter(menu-item);width:34px;flex:0 0 34px;color:var(--lime);font:600 .65rem Manrope,Arial,sans-serif;letter-spacing:.06em}
+  .nav nav a::after{content:'→';position:absolute;right:2px;color:#59615f;font:400 1.15rem Manrope,Arial,sans-serif;transition:color .2s,transform .2s}
+  .nav nav a:active{color:var(--lime);padding-left:5px}.nav nav a:active::after{color:var(--lime);transform:translateX(3px)}
+  img,svg,input,select,textarea{max-width:100%}
+  .hero-copy,.quick-card,.service,.content,.contact form{min-width:0}
+}
+
+@media(max-width:380px){
+  :root{--wrap:calc(100% - 24px)}
+  .brand small{letter-spacing:.17em}
+  .nav nav{padding-inline:18px}
+  .nav nav a{font-size:1.55rem;min-height:62px}
+  h1{font-size:2.8rem}
+  .section-head h2,.content h2,.contact h2{font-size:2.45rem}
+  .proof{grid-template-columns:1fr}.proof span:last-child{grid-column:auto}
+  .mobile-bar a{font-size:.64rem}
+}

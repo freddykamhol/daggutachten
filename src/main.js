@@ -28,9 +28,24 @@ document.querySelector('#app').innerHTML = `
 <footer><div class="wrap footer-grid"><div class="footer-brand"><a class="brand" href="#start"><img src="/kfz-sachverstaendiger-logo.jpg" alt=""><span><b>DAG</b><small>GUTACHTEN</small></span></a><p>Unabhängige Kfz-Gutachten für Privatkunden, Unternehmen und Fahrzeugpartner in OWL.</p></div><div><h3>Leistungen</h3><a href="#leistungen">Unfallgutachten</a><a href="#leistungen">Wertgutachten</a><a href="#fuhrparks">Fuhrparks & Lkw</a><a href="#fuhrparks">Partner</a></div><div><h3>Kontakt</h3><a href="tel:${tel}">${phone}</a><a href="mailto:gutachten@dagtransporte.de">gutachten@dagtransporte.de</a><p>Siemensweg 3<br>33758 Schloß Holte-Stukenbrock</p></div><div><h3>Rechtliches</h3><a href="https://dag-gutachten.de/impressum.php">Impressum</a><a href="https://dag-gutachten.de/datenschutz.php">Datenschutz</a><a href="https://dag-gutachten.de/agb.php">AGB</a><a href="https://dag-gutachten.de/unterlagen.php">Auftragsunterlagen</a></div></div><div class="wrap copyright"><span>© 2026 DAG Gutachten</span><span>Zertifizierter Kfz-Sachverständiger · OWL</span></div></footer>
 <div class="mobile-bar"><a href="tel:${tel}">${icon('phone')} Anrufen</a><a href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a href="#kontakt">Schaden melden</a></div>`
 
-const menu = document.querySelector('.menu'), nav = document.querySelector('nav')
-menu.addEventListener('click', () => { const open = nav.classList.toggle('open'); menu.setAttribute('aria-expanded', String(open)) })
-nav.addEventListener('click', () => nav.classList.remove('open'))
+const menu = document.querySelector('.menu'), nav = document.querySelector('.nav nav')
+const closeMenu = () => {
+  nav.classList.remove('open')
+  document.body.classList.remove('menu-open')
+  menu.setAttribute('aria-expanded', 'false')
+  menu.setAttribute('aria-label', 'Menü öffnen')
+}
+menu.addEventListener('click', () => {
+  const open = !nav.classList.contains('open')
+  if (open) {
+    nav.classList.add('open')
+    document.body.classList.add('menu-open')
+    menu.setAttribute('aria-expanded', 'true')
+    menu.setAttribute('aria-label', 'Menü schließen')
+  } else closeMenu()
+})
+nav.addEventListener('click', closeMenu)
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu() })
 document.querySelector('#lead-form').addEventListener('submit', (event) => { event.preventDefault(); const d = new FormData(event.currentTarget); const m = `Guten Tag Herr Dag, ich möchte eine Anfrage stellen.%0A%0AName: ${encodeURIComponent(d.get('name'))}%0ATelefon: ${encodeURIComponent(d.get('phone'))}%0AAnliegen: ${encodeURIComponent(d.get('type'))}%0ANachricht: ${encodeURIComponent(d.get('message'))}`; window.open(`https://wa.me/4915739039000?text=${m}`, '_blank', 'noopener') })
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('visible') }), { threshold: .12 })
 document.querySelectorAll('.section-head,.service,.steps article,.split,.contact-grid').forEach((el) => observer.observe(el))
