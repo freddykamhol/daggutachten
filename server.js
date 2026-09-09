@@ -1,8 +1,9 @@
 import { createReadStream, existsSync, statSync } from 'node:fs'
 import { createServer } from 'node:http'
-import { extname, join, normalize, resolve } from 'node:path'
+import { extname, join, normalize, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const root = resolve(process.cwd(), 'dist')
+const root = fileURLToPath(new URL('.', import.meta.url))
 const port = Number.parseInt(process.env.PORT || '3000', 10)
 
 const contentTypes = {
@@ -33,10 +34,17 @@ function sendFile(response, filePath) {
 
 createServer((request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname)
-  const requestedPath = normalize(pathname).replace(/^(\.\.[/\\])+/, '')
-  let filePath = join(root, requestedPath)
 
-  if (!filePath.startsWith(root)) {
+  if (pathname === '/health') {
+    response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' })
+    response.end('ok')
+    return
+  }
+
+  const requestedPath = normalize(pathname).replace(/^([/\\])+/, '')
+  let filePath = join(root, requestedPath || 'index.html')
+
+  if (relative(root, filePath).startsWith('..')) {
     response.writeHead(403).end('Forbidden')
     return
   }
@@ -44,7 +52,16 @@ createServer((request, response) => {
   if (existsSync(filePath) && statSync(filePath).isDirectory()) filePath = join(filePath, 'index.html')
 
   if (existsSync(filePath) && statSync(filePath).isFile()) {
-    sendFile(response, filePath)
+    if (request.method === 'HEAD') {
+      response.writeHead(200, { 'Content-Type': contentTypes[extname(filePath).toLowerCase()] || 'application/octet-stream' })
+      response.end()
+    } else sendFile(response, filePath)
+    return
+  }
+
+  if (pathname.startsWith('/assets/') || extname(pathname)) {
+    response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' })
+    response.end('Not found')
     return
   }
 
